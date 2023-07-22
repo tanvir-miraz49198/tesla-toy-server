@@ -33,12 +33,67 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const toyDetailsCollection = client.db('teslaToy').collection('details');
+  
+
+    const toyCategoryDetails = client.db('toyCategory').collection('categoryDetails');
+
+    const addingToys = client.db('teslaToy').collection('addedToys');
+
+  
+
+
+
+
+// toy information
+
+    app.get('/details', async(req, res) => {
+      const cursor = toyDetailsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
+  
+    app.get('/categoryDetails', async(req, res) => {
+      const category = toyCategoryDetails.find();
+      const result = await category.toArray();
+      res.send(result)
+    })
+
+
+
+  //  all added toys information post
+
+    app.post('/addedToys', async(req, res) => {
+      const toys = req.body;
+      console.log(toys)
+      const result = await addingToys.insertOne(toys)
+      res.send(result)
+    })
+
+
+
+    // all added toys information get
+
+    app.get('/addedToys', async(req, res) => {
+      const result = await addingToys.find().toArray();
+      res.send(result)
+    })
+
+
+
+
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
@@ -46,10 +101,10 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send("hello world 11")
+  res.send("hello world 11")
 })
 
 
 app.listen(port, () => {
-    console.log('tesla car running server running')
+  console.log('tesla car running server running')
 })
