@@ -43,8 +43,6 @@ async function run() {
 
 
 
-
-
     // toy information
 
     app.get('/details', async (req, res) => {
@@ -87,7 +85,7 @@ async function run() {
       res.send(result)
     })
 
-
+// 
 
     // all added toys information get category(email)
 
